@@ -1,0 +1,8 @@
+fastapi[standard]
+uvicorn
+python-dotenv
+python-multipart
+landingai-ade
+supabase
+pydantic
+sqlmodel
