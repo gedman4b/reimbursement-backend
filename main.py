@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from landingai_ade import LandingAIADE
 from landingai_ade.lib import pydantic_to_json_schema
 from database import (Database, InsuredInformationBase, 
-PatientInformationBase, OtherInsuranceInformationBase, AttestationBase, ClaimBase
+PatientInformationBase, OtherInsuranceInformationBase, AttestationBase, ClaimBase, ContractBase
 )
 
 load_dotenv(override=True)
@@ -276,6 +276,21 @@ async def get_claim(claim_id: int):
 async def create_claim(claim: ClaimBase):
     """ Create a new claim """
     return database.create_claim(claim)
+
+@app.get("/contracts")
+async def get_all_contracts():
+    """ Get all contracts """
+    return database.get_all_contracts()
+
+@app.get("/contracts/{contract_id}")
+async def get_contract(contract_id: int):
+    """ Get contract by id """
+    return database.get_contract(contract_id)
+
+@app.post("/contracts")
+async def create_contract(contract: ContractBase):
+    """ Create a new contract """
+    return database.create_contract(contract)
 
 @app.get("/")
 async def read_root():

@@ -91,6 +91,16 @@ class ClaimBase(SQLModel):
     actual: Optional[float] = Field(default=None, description="The claim's actual reimbursement.")
     status: ClaimStatus = Field(..., description="The claim's status.")
     patient_id: Optional[int] = Field(default=None, description="The claim's patient id.")
+
+class ContractBase(SQLModel):
+    """ Contract """
+    contract_id: str = Field(..., description="The contract's id.")
+    contract_name: str = Field(..., description="The contract's name.")
+    contract_description: str = Field(..., description="The contract's description.")
+    contract_status: str = Field(..., description="The contract's status.")
+    contract_start_date: str = Field(..., description="The contract's start date.")
+    contract_end_date: str = Field(..., description="The contract's end date.")
+    contract_type: str = Field(..., description="The contract's type.")
     
 
 url: str = os.getenv("SUPABASE_URL")
@@ -234,3 +244,16 @@ class Database:
     def get_claim(self, claim_id: int):
         """Get a claim by id."""
         return self.supabase.from_("Claims").select("*").eq("id", claim_id).execute()
+
+    # Contract Statements
+    def create_contract(self, contract: ContractBase):
+        """Create a new contract."""
+        return self.supabase.from_("Contracts").insert(self._to_insert_payload(contract)).execute()
+    
+    def get_all_contracts(self):
+        """Get all contracts."""
+        return self.supabase.from_("Contracts").select("*").execute()
+    
+    def get_contract(self, contract_id: int):
+        """Get a contract by id."""
+        return self.supabase.from_("Contracts").select("*").eq("id", contract_id).execute()
